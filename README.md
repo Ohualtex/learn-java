@@ -8,7 +8,7 @@ alıştırmalarla öğrenmek için bir çalışma deposu.
 | Dosya | Açıklama |
 |-------|----------|
 | [`NOTLAR.md`](NOTLAR.md) | Konu anlatımı: her başlıkta kavram + tuzak + ezber cümle |
-| [`ALISTIRMALAR.md`](ALISTIRMALAR.md) | Karışık sorular; her sorunun cevabı hemen altında gizli |
+| [`ALISTIRMALAR/`](ALISTIRMALAR/) | Karışık sorular (Part 1, Part 2, ...); her sorunun cevabı hemen altında gizli |
 | [`Main.java`](Main.java) | Tek dosyada örnek: enum, interface, exception, kalıtım, ArrayList, polimorfizm |
 
 ## Konular
