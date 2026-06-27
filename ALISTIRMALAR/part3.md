@@ -78,3 +78,69 @@ for (Sesli s : l) System.out.print(s.ses() + " ");
 
 `Hav Cik Hav ` — her nesnenin kendi `ses()`'i çalışır (polimorfizm); liste sırası Kopek, Kus, Kopek.
 </details>
+
+**Soru 6.**
+```java
+ArrayList<Integer> l = new ArrayList<>();
+l.add(10); l.add(20); l.add(30);
+l.set(1, 99); l.add(1, 7);
+System.out.println(l.get(2) + " boyut=" + l.size());   // ?
+```
+<details><summary>Cevap</summary>
+
+`99 boyut=4`. `[10,20,30]`→set(1,99)`[10,99,30]`→add(1,7)`[10,7,99,30]`→ `get(2)`=99, boyut=4.
+</details>
+
+**Soru 7.**
+```java
+class Ust { int deger(){ return 10; } }
+class Alt extends Ust { @Override int deger(){ return super.deger() + 5; } }
+Ust u = new Alt();
+System.out.println(u.deger());   // ?
+```
+<details><summary>Cevap</summary>
+
+`15`. Nesne `Alt`, override edilen `deger()` çalışır; `super.deger()`=10, +5 → **15** (polimorfizm + super).
+</details>
+
+**Soru 8.**
+```java
+class Sayac { static int n = 0; static void artir(){ n++; } }
+Sayac.artir(); Sayac.artir();
+Sayac s = new Sayac(); s.artir();
+System.out.println(Sayac.n);   // ?
+```
+<details><summary>Cevap</summary>
+
+`3`. `artir()` static; 3 kez çağrıldı (nesneden çağrılması da aynı static `n`'i artırır) → **3**.
+</details>
+
+**Soru 9.** (zor — this() zinciri)
+```java
+class A {
+    A()             { this(1);    System.out.println("A()"); }
+    A(int x)        { this(x, 2); System.out.println("A(int)"); }
+    A(int x, int y) { System.out.println("A(int,int) " + (x + y)); }
+}
+// new A();  -->  Çıktı (3 satır)?
+```
+<details><summary>Cevap</summary>
+
+```
+A(int,int) 3
+A(int)
+A()
+```
+`A()`→`this(1)`→`A(int)`→`this(1,2)`→`A(int,int)` (1+2=3) yaz → dön `A(int)` yaz → dön `A()` yaz.
+</details>
+
+**Soru 10.** (derlenir mi?)
+```java
+abstract class Sekil { abstract void ciz(); }
+class Kare extends Sekil { }   // ciz() doldurulmadı
+// new Kare();  -->  DERLENİR Mİ?
+```
+<details><summary>Cevap</summary>
+
+**DERLENMEZ.** `Kare`, abstract `Sekil`'den türüyor ama soyut `ciz()`'i doldurmadı. Çözüm: `ciz()`'i yaz **ya da** `Kare`'yi `abstract` yap.
+</details>
