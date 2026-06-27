@@ -1,0 +1,21 @@
+# Derlenmiş Java dosyaları
+*.class
+
+# Paket dosyaları
+*.jar
+*.war
+*.ear
+
+# Loglar
+*.log
+
+# IDE / editör
+.vscode/
+.idea/
+*.iml
+*.iws
+
+# İşletim sistemi
+.DS_Store
+Thumbs.db
+desktop.ini
