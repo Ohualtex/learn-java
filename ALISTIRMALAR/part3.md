@@ -8,12 +8,25 @@ Konu anlatımı için → [`NOTLAR.md`](../NOTLAR.md)
 **1. Soru** (harman: kalıtım + this() + super + sıra) — zor
 ```java
 class A {
-    A()      { System.out.println("A()"); }
-    A(int x) { System.out.println("A(int)"); }
+    A() {
+        System.out.println("A()");
+    }
+
+    A(int x) {
+        System.out.println("A(int)");
+    }
 }
+
 class B extends A {
-    B()      { this(5);   System.out.println("B()"); }
-    B(int x) { super(x);  System.out.println("B(int)"); }
+    B() {
+        this(5);
+        System.out.println("B()");
+    }
+
+    B(int x) {
+        super(x);
+        System.out.println("B(int)");
+    }
 }
 // new B();  -->  Çıktı (3 satır)?
 ```
@@ -29,9 +42,13 @@ B()
 
 **2. Soru** (derlenir mi?)
 ```java
-interface Ucan { void uc(); }
-class Kus implements Ucan { }   // uc() doldurulmadı
-// DERLENİR Mİ?
+interface Ucan {
+    void uc();
+}
+
+class Kus implements Ucan {
+}
+// uc() doldurulmadı — DERLENİR Mİ?
 ```
 <details><summary>Cevap</summary>
 
@@ -42,8 +59,15 @@ class Kus implements Ucan { }   // uc() doldurulmadı
 ```java
 class Kutu {
     int en, boy;
-    Kutu(){ __(1)__(1, 1); }
-    Kutu(int en, int boy){ __(2)__.en = en; this.boy = boy; }
+
+    Kutu() {
+        __(1)__(1, 1);
+    }
+
+    Kutu(int en, int boy) {
+        __(2)__.en = en;
+        this.boy = boy;
+    }
 }
 ```
 <details><summary>Cevap</summary>
@@ -55,7 +79,10 @@ class Kutu {
 ```java
 class Ogrenci {
     __(1)__ int sayac = 0;     // tüm nesneler aynı kopyayı paylaşsın
-    Ogrenci(){ sayac__(2)__; } // her nesnede 1 artsın
+
+    Ogrenci() {
+        sayac__(2)__;          // her nesnede 1 artsın
+    }
 }
 ```
 <details><summary>Cevap</summary>
@@ -65,13 +92,29 @@ class Ogrenci {
 
 **5. Soru** (harman: interface + polimorfizm + ArrayList)
 ```java
-interface Sesli { String ses(); }
-class Kopek implements Sesli { public String ses(){ return "Hav"; } }
-class Kus   implements Sesli { public String ses(){ return "Cik"; } }
+interface Sesli {
+    String ses();
+}
+
+class Kopek implements Sesli {
+    public String ses() {
+        return "Hav";
+    }
+}
+
+class Kus implements Sesli {
+    public String ses() {
+        return "Cik";
+    }
+}
 
 ArrayList<Sesli> l = new ArrayList<>();
-l.add(new Kopek()); l.add(new Kus()); l.add(new Kopek());
-for (Sesli s : l) System.out.print(s.ses() + " ");
+l.add(new Kopek());
+l.add(new Kus());
+l.add(new Kopek());
+for (Sesli s : l) {
+    System.out.print(s.ses() + " ");
+}
 // Çıktı?
 ```
 <details><summary>Cevap</summary>
@@ -82,8 +125,11 @@ for (Sesli s : l) System.out.print(s.ses() + " ");
 **6. Soru**
 ```java
 ArrayList<Integer> l = new ArrayList<>();
-l.add(10); l.add(20); l.add(30);
-l.set(1, 99); l.add(1, 7);
+l.add(10);
+l.add(20);
+l.add(30);
+l.set(1, 99);
+l.add(1, 7);
 System.out.println(l.get(2) + " boyut=" + l.size());   // ?
 ```
 <details><summary>Cevap</summary>
@@ -93,8 +139,19 @@ System.out.println(l.get(2) + " boyut=" + l.size());   // ?
 
 **7. Soru**
 ```java
-class Ust { int deger(){ return 10; } }
-class Alt extends Ust { @Override int deger(){ return super.deger() + 5; } }
+class Ust {
+    int deger() {
+        return 10;
+    }
+}
+
+class Alt extends Ust {
+    @Override
+    int deger() {
+        return super.deger() + 5;
+    }
+}
+
 Ust u = new Alt();
 System.out.println(u.deger());   // ?
 ```
@@ -105,9 +162,18 @@ System.out.println(u.deger());   // ?
 
 **8. Soru**
 ```java
-class Sayac { static int n = 0; static void artir(){ n++; } }
-Sayac.artir(); Sayac.artir();
-Sayac s = new Sayac(); s.artir();
+class Sayac {
+    static int n = 0;
+
+    static void artir() {
+        n++;
+    }
+}
+
+Sayac.artir();
+Sayac.artir();
+Sayac s = new Sayac();
+s.artir();
 System.out.println(Sayac.n);   // ?
 ```
 <details><summary>Cevap</summary>
@@ -118,9 +184,19 @@ System.out.println(Sayac.n);   // ?
 **9. Soru** (zor — this() zinciri)
 ```java
 class A {
-    A()             { this(1);    System.out.println("A()"); }
-    A(int x)        { this(x, 2); System.out.println("A(int)"); }
-    A(int x, int y) { System.out.println("A(int,int) " + (x + y)); }
+    A() {
+        this(1);
+        System.out.println("A()");
+    }
+
+    A(int x) {
+        this(x, 2);
+        System.out.println("A(int)");
+    }
+
+    A(int x, int y) {
+        System.out.println("A(int,int) " + (x + y));
+    }
 }
 // new A();  -->  Çıktı (3 satır)?
 ```
@@ -136,9 +212,13 @@ A()
 
 **10. Soru** (derlenir mi?)
 ```java
-abstract class Sekil { abstract void ciz(); }
-class Kare extends Sekil { }   // ciz() doldurulmadı
-// new Kare();  -->  DERLENİR Mİ?
+abstract class Sekil {
+    abstract void ciz();
+}
+
+class Kare extends Sekil {
+}
+// ciz() doldurulmadı — new Kare();  DERLENİR Mİ?
 ```
 <details><summary>Cevap</summary>
 

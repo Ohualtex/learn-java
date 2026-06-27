@@ -8,7 +8,11 @@ Konu anlatımı için → [`NOTLAR.md`](../NOTLAR.md)
 **1. Soru**
 ```java
 ArrayList<Integer> a = new ArrayList<>();
-a.add(10); a.add(20); a.add(1, 99); a.set(0, 5); a.remove(2);
+a.add(10);
+a.add(20);
+a.add(1, 99);
+a.set(0, 5);
+a.remove(2);
 // a = ?
 ```
 <details><summary>Cevap</summary>
@@ -18,8 +22,17 @@ a.add(10); a.add(20); a.add(1, 99); a.set(0, 5); a.remove(2);
 
 **2. Soru**
 ```java
-class X { X(){ System.out.println("X"); } }
-class Y extends X { Y(){ System.out.println("Y"); } }
+class X {
+    X() {
+        System.out.println("X");
+    }
+}
+
+class Y extends X {
+    Y() {
+        System.out.println("Y");
+    }
+}
 // new Y();  -->  Çıktı?
 ```
 <details><summary>Cevap</summary>
@@ -33,9 +46,19 @@ super önce → ata önce çalışır (yukarıdan aşağı).
 
 **3. Soru**
 ```java
-class S { static int t = 1; void f(){ t = t * 2; } }
-S a = new S();  S b = new S();
-a.f(); b.f(); a.f();
+class S {
+    static int t = 1;
+
+    void f() {
+        t = t * 2;
+    }
+}
+
+S a = new S();
+S b = new S();
+a.f();
+b.f();
+a.f();
 System.out.println(b.t);   // ?
 ```
 <details><summary>Cevap</summary>
@@ -46,8 +69,14 @@ System.out.println(b.t);   // ?
 **4. Soru**
 ```java
 class K {
-    K()      { this(3); System.out.println("bos"); }
-    K(int n) { System.out.println("sayi=" + n); }
+    K() {
+        this(3);
+        System.out.println("bos");
+    }
+
+    K(int n) {
+        System.out.println("sayi=" + n);
+    }
 }
 // new K();  -->  Çıktı?
 ```
@@ -64,9 +93,18 @@ bos
 ```java
 abstract class Hayvan {
     abstract String ses();
-    void konus(){ System.out.println(ses()); }
+
+    void konus() {
+        System.out.println(ses());
+    }
 }
-class Kedi extends Hayvan { @Override String ses(){ return "Miyav"; } }
+
+class Kedi extends Hayvan {
+    @Override
+    String ses() {
+        return "Miyav";
+    }
+}
 // 1) Hayvan h = new Kedi();  h.konus();  -->  Çıktı?
 // 2) Hayvan h = new Hayvan();  yazılabilir mi?
 ```
@@ -79,7 +117,9 @@ class Kedi extends Hayvan { @Override String ses(){ return "Miyav"; } }
 **6. Soru**
 ```java
 ArrayList<Integer> l = new ArrayList<>();
-l.add(1); l.add(2); l.add(4, 9);
+l.add(1);
+l.add(2);
+l.add(4, 9);
 // Çıktı / sonuç?
 ```
 <details><summary>Cevap</summary>
@@ -91,13 +131,23 @@ l.add(1); l.add(2); l.add(4, 9);
 ```java
 abstract class Calisan {
     String ad;
-    Calisan(String ad){ this.ad = ad; }
+
+    Calisan(String ad) {
+        this.ad = ad;
+    }
+
     abstract double maas();
 }
+
 class Muhendis __(1)__ Calisan {
-    Muhendis(String ad){ __(2)__(ad); }
+    Muhendis(String ad) {
+        __(2)__(ad);
+    }
+
     __(3)__
-    double maas(){ return 5000; }
+    double maas() {
+        return 5000;
+    }
 }
 ```
 <details><summary>Cevap</summary>
@@ -107,8 +157,18 @@ class Muhendis __(1)__ Calisan {
 
 **8. Soru**
 ```java
-class Arac { Arac(String s){ System.out.println("Arac: " + s); } }
-class Araba extends Arac { Araba(){ super("4 teker"); System.out.println("Araba"); } }
+class Arac {
+    Arac(String s) {
+        System.out.println("Arac: " + s);
+    }
+}
+
+class Araba extends Arac {
+    Araba() {
+        super("4 teker");
+        System.out.println("Araba");
+    }
+}
 // new Araba();  -->  Çıktı?
 ```
 <details><summary>Cevap</summary>
@@ -122,9 +182,21 @@ Araba
 
 **9. Soru**
 ```java
-class P { static int s = 0; int i = 0; void art(){ s++; i++; } }
-P a = new P();  P b = new P();
-a.art(); a.art(); b.art();
+class P {
+    static int s = 0;
+    int i = 0;
+
+    void art() {
+        s++;
+        i++;
+    }
+}
+
+P a = new P();
+P b = new P();
+a.art();
+a.art();
+b.art();
 System.out.println(a.s + " " + a.i + " " + b.s + " " + b.i);   // ?
 ```
 <details><summary>Cevap</summary>
@@ -134,8 +206,21 @@ System.out.println(a.s + " " + a.i + " " + b.s + " " + b.i);   // ?
 
 **10. Soru** (zor — private override edilmez!)
 ```java
-class A { private void g(){ System.out.println("A.g"); }  void f(){ g(); } }
-class B extends A { void g(){ System.out.println("B.g"); } }
+class A {
+    private void g() {
+        System.out.println("A.g");
+    }
+
+    void f() {
+        g();
+    }
+}
+
+class B extends A {
+    void g() {
+        System.out.println("B.g");
+    }
+}
 // new B().f();  -->  Çıktı?
 ```
 <details><summary>Cevap</summary>

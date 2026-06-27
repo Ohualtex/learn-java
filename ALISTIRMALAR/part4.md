@@ -8,7 +8,9 @@ Konu anlatımı için → [`NOTLAR.md`](../NOTLAR.md)
 **1. Soru**
 ```java
 ArrayList<String> l = new ArrayList<>();
-l.add("a"); l.add("b"); l.add("c");
+l.add("a");
+l.add("b");
+l.add("c");
 System.out.println(l.indexOf("b") + " " + l.contains("x"));   // ?
 ```
 <details><summary>Cevap</summary>
@@ -19,8 +21,13 @@ System.out.println(l.indexOf("b") + " " + l.contains("x"));   // ?
 **2. Soru**
 ```java
 class IB {
-    { System.out.println("blok"); }
-    IB(){ System.out.println("ctor"); }
+    {
+        System.out.println("blok");
+    }
+
+    IB() {
+        System.out.println("ctor");
+    }
 }
 // new IB();  -->  Çıktı?
 ```
@@ -36,9 +43,17 @@ ctor
 **3. Soru**
 ```java
 class SB {
-    static { System.out.println("static blok"); }
-    { System.out.println("ornek blok"); }
-    SB(){ System.out.println("ctor"); }
+    static {
+        System.out.println("static blok");
+    }
+
+    {
+        System.out.println("ornek blok");
+    }
+
+    SB() {
+        System.out.println("ctor");
+    }
 }
 // new SB(); new SB();  -->  Çıktı?
 ```
@@ -57,7 +72,9 @@ ctor
 **4. Soru**
 ```java
 ArrayList<Integer> l = new ArrayList<>();
-l.add(1); l.add(2); l.add(3);
+l.add(1);
+l.add(2);
+l.add(3);
 l.clear();
 System.out.println(l.isEmpty() + " " + l.size());   // ?
 ```
@@ -68,8 +85,12 @@ System.out.println(l.isEmpty() + " " + l.size());   // ?
 
 **5. Soru**
 ```java
-class Hayvan {}
-class Kedi extends Hayvan {}
+class Hayvan {
+}
+
+class Kedi extends Hayvan {
+}
+
 Hayvan h = new Kedi();
 System.out.println(h instanceof Kedi);
 System.out.println(h instanceof Hayvan);
@@ -97,9 +118,17 @@ System.out.println(1 + 2 + "x" + 1 + 2);   // ?
 ```java
 class Nokta {
     int x, y;
-    Nokta(int x, int y){ this.x = x; this.y = y; }
-    public String toString(){ return x + "," + y; }
+
+    Nokta(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public String toString() {
+        return x + "," + y;
+    }
 }
+
 System.out.println(new Nokta(3, 4));   // ?
 ```
 <details><summary>Cevap</summary>
@@ -109,9 +138,22 @@ System.out.println(new Nokta(3, 4));   // ?
 
 **8. Soru** (harman: kalıtım + static + constructor)
 ```java
-class Arac { static int sayi = 0; Arac(){ sayi++; } }
-class Araba extends Arac { Araba(){} }
-new Arac(); new Araba(); new Araba();
+class Arac {
+    static int sayi = 0;
+
+    Arac() {
+        sayi++;
+    }
+}
+
+class Araba extends Arac {
+    Araba() {
+    }
+}
+
+new Arac();
+new Araba();
+new Araba();
 System.out.println(Arac.sayi);   // ?
 ```
 <details><summary>Cevap</summary>
@@ -124,10 +166,18 @@ System.out.println(Arac.sayi);   // ?
 __(1)__ class Sekil {
     __(2)__ double alan();
 }
+
 class Kare extends Sekil {
     double k;
-    Kare(double k){ this.k = k; }
-    @Override double alan(){ return k * k; }
+
+    Kare(double k) {
+        this.k = k;
+    }
+
+    @Override
+    double alan() {
+        return k * k;
+    }
 }
 ```
 <details><summary>Cevap</summary>
