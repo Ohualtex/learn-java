@@ -5,7 +5,7 @@ Konu anlatımı için → [`NOTLAR.md`](../NOTLAR.md)
 
 ---
 
-**Soru 1.** (harman: kalıtım + this() + super + sıra) — zor
+**1. Soru** (harman: kalıtım + this() + super + sıra) — zor
 ```java
 class A {
     A()      { System.out.println("A()"); }
@@ -27,7 +27,7 @@ B()
 `new B()` → `B()` → `this(5)` → `B(int)` → `super(5)` → `A(int)` yaz → dön `B(int)` yaz → dön `B()` yaz.
 </details>
 
-**Soru 2.** (derlenir mi?)
+**2. Soru** (derlenir mi?)
 ```java
 interface Ucan { void uc(); }
 class Kus implements Ucan { }   // uc() doldurulmadı
@@ -38,7 +38,7 @@ class Kus implements Ucan { }   // uc() doldurulmadı
 **DERLENMEZ.** `Kus`, `Ucan`'ı `implements` edip `uc()`'u doldurmadı. Çözüm: `uc()`'u yaz **ya da** `Kus`'u `abstract` yap.
 </details>
 
-**Soru 3.** (boşlukları doldur)
+**3. Soru** (boşlukları doldur)
 ```java
 class Kutu {
     int en, boy;
@@ -51,7 +51,7 @@ class Kutu {
 (1) `this`  (2) `this`
 </details>
 
-**Soru 4.** (boşlukları doldur)
+**4. Soru** (boşlukları doldur)
 ```java
 class Ogrenci {
     __(1)__ int sayac = 0;     // tüm nesneler aynı kopyayı paylaşsın
@@ -63,7 +63,7 @@ class Ogrenci {
 (1) `static`  (2) `++`
 </details>
 
-**Soru 5.** (harman: interface + polimorfizm + ArrayList)
+**5. Soru** (harman: interface + polimorfizm + ArrayList)
 ```java
 interface Sesli { String ses(); }
 class Kopek implements Sesli { public String ses(){ return "Hav"; } }
@@ -79,7 +79,7 @@ for (Sesli s : l) System.out.print(s.ses() + " ");
 `Hav Cik Hav ` — her nesnenin kendi `ses()`'i çalışır (polimorfizm); liste sırası Kopek, Kus, Kopek.
 </details>
 
-**Soru 6.**
+**6. Soru**
 ```java
 ArrayList<Integer> l = new ArrayList<>();
 l.add(10); l.add(20); l.add(30);
@@ -91,7 +91,7 @@ System.out.println(l.get(2) + " boyut=" + l.size());   // ?
 `99 boyut=4`. `[10,20,30]`→set(1,99)`[10,99,30]`→add(1,7)`[10,7,99,30]`→ `get(2)`=99, boyut=4.
 </details>
 
-**Soru 7.**
+**7. Soru**
 ```java
 class Ust { int deger(){ return 10; } }
 class Alt extends Ust { @Override int deger(){ return super.deger() + 5; } }
@@ -103,7 +103,7 @@ System.out.println(u.deger());   // ?
 `15`. Nesne `Alt`, override edilen `deger()` çalışır; `super.deger()`=10, +5 → **15** (polimorfizm + super).
 </details>
 
-**Soru 8.**
+**8. Soru**
 ```java
 class Sayac { static int n = 0; static void artir(){ n++; } }
 Sayac.artir(); Sayac.artir();
@@ -115,7 +115,7 @@ System.out.println(Sayac.n);   // ?
 `3`. `artir()` static; 3 kez çağrıldı (nesneden çağrılması da aynı static `n`'i artırır) → **3**.
 </details>
 
-**Soru 9.** (zor — this() zinciri)
+**9. Soru** (zor — this() zinciri)
 ```java
 class A {
     A()             { this(1);    System.out.println("A()"); }
@@ -134,7 +134,7 @@ A()
 `A()`→`this(1)`→`A(int)`→`this(1,2)`→`A(int,int)` (1+2=3) yaz → dön `A(int)` yaz → dön `A()` yaz.
 </details>
 
-**Soru 10.** (derlenir mi?)
+**10. Soru** (derlenir mi?)
 ```java
 abstract class Sekil { abstract void ciz(); }
 class Kare extends Sekil { }   // ciz() doldurulmadı

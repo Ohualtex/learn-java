@@ -5,7 +5,7 @@ Konu anlatımı için → [`NOTLAR.md`](../NOTLAR.md)
 
 ---
 
-**Soru 1.**
+**1. Soru**
 ```java
 ArrayList<String> l = new ArrayList<>();
 l.add("A"); l.add("B"); l.add("C"); l.add(0, "Z"); l.remove("B");
@@ -16,7 +16,7 @@ l.add("A"); l.add("B"); l.add("C"); l.add(0, "Z"); l.remove("B");
 `[Z, A, C]`. `[A,B,C]`→add(0,"Z")`[Z,A,B,C]`→remove("B"): argüman **String** → `remove(Object)` → **"B" değerini** siler → **`[Z, A, C]`**
 </details>
 
-**Soru 2.** (harman: abstract + override + polimorfizm + ArrayList + static)
+**2. Soru** (harman: abstract + override + polimorfizm + ArrayList + static)
 ```java
 abstract class Urun {
     static int adet = 0;
@@ -46,7 +46,7 @@ Adet: 3
 Kitap(50)+Kalem(10)+Kitap(50)=110.0 ; her `new` constructor'da `adet++` → 3.
 </details>
 
-**Soru 3.**
+**3. Soru**
 ```java
 class Kutu {
     int en, boy;
@@ -62,7 +62,7 @@ System.out.println(k.alan());   // ?
 `6`. `this(2,3)` → en=2, boy=3 → alan = 2*3 = **6**.
 </details>
 
-**Soru 4.**
+**4. Soru**
 ```java
 class Ata { void yaz(){ System.out.println("Ata"); } }
 class Cocuk extends Ata {
@@ -79,7 +79,7 @@ Cocuk
 `super.yaz()` önce atayı çağırır.
 </details>
 
-**Soru 5.** (boşlukları doldur)
+**5. Soru** (boşlukları doldur)
 ```java
 ArrayList<Integer> l = new ArrayList<>();
 l.add(1); l.add(2); l.add(3);     // [1, 2, 3]
@@ -91,7 +91,7 @@ l.__(2)__ ;     // sonra [1, 9, 2, 99] yap (sondaki 3 -> 99)
 (1) `add(1, 9)`  (2) `set(3, 99)`  → sonuç `[1, 9, 2, 99]`
 </details>
 
-**Soru 6.**
+**6. Soru**
 ```java
 class Nesne { static int sayac = 0; Nesne(){ sayac++; } }
 new Nesne(); new Nesne(); new Nesne();
@@ -102,7 +102,7 @@ System.out.println(Nesne.sayac);   // ?
 `3`. Her `new Nesne()` constructor'da `sayac++` yapar → 3.
 </details>
 
-**Soru 7.** (derlenir mi?)
+**7. Soru** (derlenir mi?)
 ```java
 class Ata { Ata(int x){ System.out.println("Ata " + x); } }
 class Cocuk extends Ata { Cocuk(){ System.out.println("Cocuk"); } }
@@ -113,7 +113,7 @@ class Cocuk extends Ata { Cocuk(){ System.out.println("Cocuk"); } }
 **DERLENMEZ.** `Cocuk()` içinde gizli `super()` çağrılır ama `Ata`'da parametresiz constructor yok (sadece `Ata(int)`). Düzeltme: `Cocuk(){ super(0); ... }`.
 </details>
 
-**Soru 8.**
+**8. Soru**
 ```java
 ArrayList<Integer> l = new ArrayList<>();
 l.add(5); l.add(6); l.add(7); l.remove(1);
@@ -124,7 +124,7 @@ l.add(5); l.add(6); l.add(7); l.remove(1);
 `[5, 7]`. `remove(1)`: argüman **int** → `remove(int index)` → **indeks 1** (=6) silinir.
 </details>
 
-**Soru 9.**
+**9. Soru**
 ```java
 abstract class Sekil { abstract double alan(); }
 class Kare  extends Sekil { double k; Kare(double k){ this.k=k; }  double alan(){ return k*k; } }
@@ -143,7 +143,7 @@ s = new Daire(2);        System.out.println(s.alan());
 Kare(4)=4*4=16.0 ; Daire(2)=3*2*2=12.0. Aynı `s` referansı ama çağrılan metot **nesneye** göre belirlenir.
 </details>
 
-**Soru 10.** (boşlukları doldur)
+**10. Soru** (boşlukları doldur)
 ```java
 __(1)__ Z { String getK(); }
 class Medya __(2)__ Z {
