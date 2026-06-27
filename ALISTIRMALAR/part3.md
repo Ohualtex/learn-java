@@ -78,7 +78,3 @@ for (Sesli s : l) System.out.print(s.ses() + " ");
 
 `Hav Cik Hav ` — her nesnenin kendi `ses()`'i çalışır (polimorfizm); liste sırası Kopek, Kus, Kopek.
 </details>
-
----
-
-> ℹ️ Part 3'te 5 soru var (toplam 25). Yeni partiler `part4.md`, `part5.md` ... olarak 10'arlı eklenir.
