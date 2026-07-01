@@ -31,4 +31,4 @@ java Main
 
 ## Lisans
 
-Kişisel öğrenme amaçlı. Serbestçe kullanılabilir.
+Kişisel öğrenim amaçlı. Serbestçe kullanılabilir.
