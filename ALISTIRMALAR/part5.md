@@ -55,3 +55,108 @@ System.out.println(++x);
 ```
 `x++` önce değeri (5) kullanır, sonra artırır → x=6; sonra x=6 yazılır; `++x` önce artırır (7), sonra kullanır.
 </details>
+
+**4. Soru** (boşlukları doldur — erişim belirleyici)
+```java
+class Hesap {
+    __(1)__ double bakiye;   // alt sınıflar erişebilsin ama dışarıya (private gibi) kapalı olsun
+}
+
+class VadeliHesap extends Hesap {
+    void faizEkle() {
+        bakiye = bakiye + 10;   // erişebiliyor
+    }
+}
+```
+<details><summary>Cevap</summary>
+
+(1) `protected`. `protected` → kendi sınıfı + **alt sınıflar** (ve aynı paket) erişir; sınıf dışından `nesne.bakiye` ile erişim kapalıdır.
+</details>
+
+**5. Soru** (yazım kuralı — isimlendirme)
+```java
+// Java isimlendirme kuralına (convention) göre hangisi DOĞRU?
+// a) class ogrenci { }
+// b) class Ogrenci { }
+// c) class OGRENCI { }
+```
+<details><summary>Cevap</summary>
+
+**b) `class Ogrenci`**. Sınıf adları **PascalCase** (her kelime büyük harfle başlar). Ek olarak: metot/değişken → camelCase (`hesapla`, `toplamTutar`); sabitler → UPPER_CASE (`PI`, `MAX_SAYI`).
+</details>
+
+**6. Soru** (yazım kuralı — geçerli değişken adı)
+```java
+// Hangileri GEÇERLİ değişken adı?
+int 2sayi;    // 1
+int _sayi;    // 2
+int sayi-1;   // 3
+int $deger;   // 4
+int class;    // 5
+```
+<details><summary>Cevap</summary>
+
+Geçerli: **2 (`_sayi`)** ve **4 (`$deger`)**.
+Geçersiz: **1** rakamla başlayamaz, **3** tire (`-`) içeremez, **5** `class` anahtar kelimedir.
+Kural: harf, `_` veya `$` ile başlar; rakamla başlayamaz; anahtar kelime olamaz.
+</details>
+
+**7. Soru** (çıktı — String metotları)
+```java
+String s = "Merhaba";
+System.out.println(s.length());
+System.out.println(s.charAt(0));
+System.out.println(s.substring(0, 3));
+System.out.println(s.toUpperCase());
+// Çıktı (4 satır)?
+```
+<details><summary>Cevap</summary>
+
+```
+7
+M
+Mer
+MERHABA
+```
+`length()`=7 harf; `charAt(0)`=ilk harf 'M'; `substring(0,3)`=0..2 arası "Mer"; `toUpperCase()`=hepsi büyük.
+</details>
+
+**8. Soru** (boşlukları doldur — döngü)
+```java
+// 0, 1, 2, 3, 4 yazdır
+for (int i = 0; i __(1)__ 5; i__(2)__) {
+    System.out.println(i);
+}
+```
+<details><summary>Cevap</summary>
+
+(1) `<`  (2) `++`
+</details>
+
+**9. Soru** (çıktı — boolean operatörler)
+```java
+int a = 5, b = 10;
+System.out.println(a > 3 && b < 5);
+System.out.println(a > 3 || b < 5);
+System.out.println(!(a == 5));
+// Çıktı (3 satır)?
+```
+<details><summary>Cevap</summary>
+
+```
+false
+true
+false
+```
+`a>3`=true, `b<5`=false → `&&` → false; `||` → true; `a==5`=true → `!` → false.
+</details>
+
+**10. Soru** (boşlukları doldur — sabit tanımı)
+```java
+// Sınıf sabiti: değeri değişmez + tüm nesneler paylaşır (ad BÜYÜK_HARF)
+public __(1)__ __(2)__ int MAX_SAYI = 100;
+```
+<details><summary>Cevap</summary>
+
+(1) `static`  (2) `final` → `static final`. `static` = tek kopya (sınıfa ait), `final` = değeri sonradan değişmez. Sabit adı `MAX_SAYI` gibi BÜYÜK_HARF + `_` ile yazılır.
+</details>
