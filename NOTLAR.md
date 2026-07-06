@@ -2,12 +2,11 @@
 
 Temel nesne yönelimli programlama konuları: her başlıkta **kavram + tuzak + ezber cümle**.
 Alıştırmalar için → [`ALISTIRMALAR/`](ALISTIRMALAR/) (Part 1, Part 2, ...)
+Çalışan tam örnekler için → [`ORNEKLER/`](ORNEKLER/)
 
 ---
 
 ## 1) Sınıf Yapısı
-
-Örnek: `Main.java`
 
 | Yapı | Anahtar kelime | Hatırla |
 |------|----------------|---------|

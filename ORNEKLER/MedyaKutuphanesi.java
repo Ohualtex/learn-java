@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 /*
- * Java OOP örneği: enum, interface, exception, kalıtım,
- * ArrayList ve polimorfizm.
- * Derle/çalıştır: javac Main.java && java Main
+ * Kütüphane/kiralama örneği: enum, interface, exception, kalıtım,
+ * ArrayList ve polimorfizmi bir arada gösterir.
+ * Derle/çalıştır: javac MedyaKutuphanesi.java && java MedyaKutuphanesi
  */
 
 // enum
@@ -72,7 +72,7 @@ class Kutuphane {
     }
 }
 
-public class Main {
+public class MedyaKutuphanesi {
     public static void main(String[] args) {
 
         Kutuphane k = new Kutuphane();

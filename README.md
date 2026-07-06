@@ -9,7 +9,7 @@ alıştırmalarla öğrenmek için bir çalışma deposu.
 |-------|----------|
 | [`NOTLAR.md`](NOTLAR.md) | Konu anlatımı: her başlıkta kavram + tuzak + ezber cümle |
 | [`ALISTIRMALAR/`](ALISTIRMALAR/) | Karışık sorular (Part 1, Part 2, ...); her sorunun cevabı hemen altında gizli |
-| [`Main.java`](Main.java) | Tek dosyada örnek: enum, interface, exception, kalıtım, ArrayList, polimorfizm |
+| [`ORNEKLER/`](ORNEKLER/) | Günlük hayattan, çalışan tam örnek programlar |
 
 ## Konular
 
@@ -19,15 +19,6 @@ alıştırmalarla öğrenmek için bir çalışma deposu.
 - `this(...)` ile constructor zinciri
 - `abstract`, `@Override`, `private` ve polimorfizm
 - `ArrayList` metotları (`add`, `set`, `remove`) ve sık yapılan hatalar
-
-## Çalıştırma
-
-Java JDK kurulu olmalı.
-
-```bash
-javac Main.java
-java Main
-```
 
 ## Lisans
 
