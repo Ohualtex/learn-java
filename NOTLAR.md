@@ -91,19 +91,19 @@ class C extends B {
 class Sayac {
     static int x = 0;
 
-    void K(int u) {
+    void arttirX(int u) {
         x = x + u;
     }
 
-    void L(int v) {
+    void arttirY(int v) {
         x = x + v;
     }
 }
 
 Sayac a = new Sayac();
 Sayac b = new Sayac();
-a.K(5);   // x = 5
-b.L(3);   // x = 8   (AYNI x!)
+a.arttirX(5);   // x = 5
+b.arttirY(3);   // x = 8   (AYNI x!)
 System.out.println(a.x + " - " + b.x);  // 8 - 8
 ```
 
