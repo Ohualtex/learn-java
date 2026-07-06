@@ -54,10 +54,24 @@ l.add(5, 21);    // ❌ HATA! index 5 > boyut 3
 ## 3) Kalıtım & Constructor Sırası (super)
 
 ```java
-class A { A(){ System.out.println("A"); } }
-class B extends A { B(){ System.out.println("B"); } }
-class C extends B { C(){ System.out.println("C"); } }
-// new C()  -->  Çıktı:  A  B  C
+class A {
+    A() {
+        System.out.println("A");
+    }
+}
+
+class B extends A {
+    B() {
+        System.out.println("B");
+    }
+}
+
+class C extends B {
+    C() {
+        System.out.println("C");
+    }
+}
+// new C();  -->  Çıktı:  A  B  C
 ```
 
 **Neden A B C?** Her constructor'ın ilk satırına Java gizli `super()` koyar.
@@ -76,10 +90,16 @@ class C extends B { C(){ System.out.println("C"); } }
 ```java
 class Sayac {
     static int x = 0;
-    void K(int u){ x = x + u; }
-    void L(int v){ x = x + v; }
+
+    void K(int u) {
+        x = x + u;
+    }
+
+    void L(int v) {
+        x = x + v;
+    }
 }
-// main:
+
 Sayac a = new Sayac();
 Sayac b = new Sayac();
 a.K(5);   // x = 5
@@ -101,10 +121,18 @@ System.out.println(a.x + " - " + b.x);  // 8 - 8
 ```java
 class A {
     int x;
-    A()      { this(5); System.out.println("Parametresiz"); }  // A(int)'i çağırır
-    A(int x) { this.x = x; System.out.println("Parametreli x=" + x); }
+
+    A() {
+        this(5);   // A(int)'i çağırır
+        System.out.println("Parametresiz");
+    }
+
+    A(int x) {
+        this.x = x;
+        System.out.println("Parametreli x=" + x);
+    }
 }
-// new A()  -->  Çıktı:
+// new A();  -->  Çıktı:
 // Parametreli x=5
 // Parametresiz
 ```
@@ -127,26 +155,50 @@ class A {
 Hepsi tek örnekte:
 
 ```java
-interface Z { String selam(); }                 // metotlar otomatik public abstract
-
-abstract class Medya implements Z {             // ABSTRACT: nesnesi OLUŞTURULAMAZ
-    private String ad;                          // private: alt sınıf bile göremez
-    protected int ucret;                        // protected: alt sınıf görebilir
-    Medya(String ad, int ucret){ this.ad=ad; this.ucret=ucret; }
-    public String getAd(){ return ad; }         // private'a tek erişim: getter
-    abstract void oynat();                       // SOYUT metot: alt sınıf doldurmak ZORUNDA
-    void bilgi(){ System.out.println(getAd()+" - "+ucret+" TL"); }  // normal metot
+interface Z {
+    String selam();   // metotlar otomatik public abstract
 }
 
-class Film extends Medya {                      // INHERITANCE (extends)
-    Film(String ad, int ucret){ super(ad, ucret); }
-    @Override void oynat(){ System.out.println(getAd()+" oynatiliyor"); }   // OVERRIDE
-    @Override public String selam(){ return "Film selam!"; }                // interface doldur
+abstract class Medya implements Z {   // ABSTRACT: nesnesi OLUŞTURULAMAZ
+    private String ad;                // private: alt sınıf bile göremez
+    protected int ucret;              // protected: alt sınıf görebilir
+
+    Medya(String ad, int ucret) {
+        this.ad = ad;
+        this.ucret = ucret;
+    }
+
+    public String getAd() {           // private'a tek erişim: getter
+        return ad;
+    }
+
+    abstract void oynat();            // SOYUT metot: alt sınıf doldurmak ZORUNDA
+
+    void bilgi() {                    // normal metot
+        System.out.println(getAd() + " - " + ucret + " TL");
+    }
 }
 
-// main:
+class Film extends Medya {            // INHERITANCE (extends)
+    Film(String ad, int ucret) {
+        super(ad, ucret);
+    }
+
+    @Override
+    void oynat() {                    // OVERRIDE
+        System.out.println(getAd() + " oynatiliyor");
+    }
+
+    @Override
+    public String selam() {           // interface doldur
+        return "Film selam!";
+    }
+}
+
 Medya m = new Film("Inception", 50);   // POLIMORFIZM: tip Medya, nesne Film
-m.bilgi();   m.oynat();   m.selam();
+m.bilgi();
+m.oynat();
+System.out.println(m.selam());
 /* Çıktı:
    Inception - 50 TL
    Inception oynatiliyor
