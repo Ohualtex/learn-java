@@ -9,7 +9,7 @@ alıştırmalarla öğrenmek için bir çalışma deposu.
 |-------|----------|
 | [`NOTLAR.md`](NOTLAR.md) | Konu anlatımı: her başlıkta kavram + tuzak + ezber cümle |
 | [`ALISTIRMALAR/`](ALISTIRMALAR/) | Karışık sorular (Part 1, Part 2, ...); her sorunun cevabı hemen altında gizli |
-| [`ORNEKLER/`](ORNEKLER/) | Günlük hayattan, çalışan tam örnek programlar |
+| [`ORNEKLER/`](ORNEKLER/) | Günlük hayattan, çalışan tam örnek programlar (medya kütüphanesi, alışveriş sepeti, banka hesabı, otel sistemi, hasta kayıt sistemi) |
 
 ## Konular
 
