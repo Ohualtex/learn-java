@@ -1,7 +1,7 @@
 # ✍️ ALIŞTIRMALAR — Part 8
 
 Konular karışık. Her sorunun cevabı **hemen altında gizli** — önce kendin çöz, sonra "Cevap"a tıkla.
-Konu anlatımı için → [`NOTLAR.md`](../NOTLAR.md)
+Konu anlatımı için → [`NOTLAR.md`](../NOTLAR/README.md)
 
 ---
 
