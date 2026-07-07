@@ -7,7 +7,7 @@ alıştırmalarla öğrenmek için bir çalışma deposu.
 
 | Dosya | Açıklama |
 |-------|----------|
-| [`NOTLAR.md`](NOTLAR.md) | Konu anlatımı: her başlıkta kavram + tuzak + ezber cümle |
+| [`NOTLAR/`](NOTLAR/README.md) | Konu anlatımı: klasör bazlı, kavram + tuzak + ezber cümleler |
 | [`ALISTIRMALAR/`](ALISTIRMALAR/) | Karışık sorular (Part 1, Part 2, ...); her sorunun cevabı hemen altında gizli |
 | [`ORNEKLER/`](ORNEKLER/) | Günlük hayattan, çalışan tam örnek programlar (medya kütüphanesi, alışveriş sepeti, banka hesabı, otel sistemi, hasta kayıt sistemi, RPG karakter sistemi) |
 
