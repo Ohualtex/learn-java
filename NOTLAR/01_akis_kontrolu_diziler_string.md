@@ -1,5 +1,5 @@
-# Bölüm 1: Temeller ve Akış Kontrolü
-*(Önce Java'nın temel yapıtaşları anlaşılmalı)*
+# Bölüm 1: Akış Kontrolü, Diziler ve String
+*(Kontrol mekanizmaları ve temel yapılar)*
 
 ## 1.1) Kontrol Akışı (switch, döngüler, ternary)
 
