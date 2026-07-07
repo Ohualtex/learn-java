@@ -6,7 +6,205 @@ Alıştırmalar için → [`ALISTIRMALAR/`](ALISTIRMALAR/) (Part 1, Part 2, ...)
 
 ---
 
-## 1) Sınıf Yapısı
+# Bölüm 1: Temeller ve Akış Kontrolü
+*(Önce Java'nın temel yapıtaşları anlaşılmalı)*
+
+## 1.1) Kontrol Akışı (switch, döngüler, ternary)
+
+```java
+int gun = 2;
+switch (gun) {
+    case 1:
+        System.out.println("Pazartesi");
+    case 2:
+        System.out.println("Sali");
+        break;
+    default:
+        System.out.println("Diger");
+}
+// Çıktı: Sali   (gun=2 direkt case 2'ye düşer)
+
+int x = 10;
+do {
+    System.out.println(x);
+    x++;
+} while (x < 5);
+// Çıktı: 10   (do-while gövdesi EN AZ BİR KEZ çalışır, şart sonda kontrol edilir)
+
+String sonuc = (7 % 2 == 0) ? "cift" : "tek";
+System.out.println(sonuc);   // tek
+```
+
+**Tuzaklar:**
+- `switch`'te bir `case`'in sonunda `break` yoksa, bir sonraki `case`'e **düşer (fall-through)** — istemeden birden fazla blok çalışabilir.
+- `while` şartı **baştan** kontrol eder (yanlışsa hiç çalışmayabilir); `do-while` şartı **sonda** kontrol eder (en az bir kez çalışır).
+- Ternary (`?:`) tek satırlık if-else'in kısayoludur: `şart ? doğruysaDeğer : yanlışsaDeğer`.
+
+> 🔑 **Ezber:** "switch'te break unutma, düşer." "do-while önce çalışır, sonra sorar; while önce sorar, sonra çalışır."
+
+---
+
+## 1.2) Temel Veri Yapıları: Diziler (Array)
+
+```java
+int[] sayilar = new int[3];
+boolean[] bayraklar = new boolean[2];
+String[] isimler = new String[2];
+System.out.println(sayilar[0] + " " + bayraklar[0] + " " + isimler[0]);
+// Çıktı: 0 false null
+
+int[] dizi = {10, 20, 30};
+System.out.println(dizi.length);   // 3  (özellik, parantezsiz)
+System.out.println(dizi[1]);       // 20 (indeks 0'dan başlar)
+
+int[][] matris = {{1, 2}, {3, 4}}; // 2 boyutlu dizi
+System.out.println(matris[1][0]);  // 3  -> matris[satir][sutun]
+```
+
+**Varsayılan değerler** (dizi oluşturunca otomatik atanır):
+
+| Tip | Varsayılan |
+|-----|-----------|
+| `int`, `double` vb. sayısal | `0` |
+| `boolean` | `false` |
+| Nesne (`String` vb.) | `null` |
+
+> 🔑 **Ezber:** dizide `.length` **özelliktir** (parantezsiz); `ArrayList`'te `.size()` **metottur** (parantezli). Karıştırmak derleme hatası verir.
+
+---
+
+## 1.3) String Derinlemesine
+
+```java
+String s1 = "Java";
+String s2 = "Java";
+String s3 = new String("Java");
+System.out.println(s1 == s2);      // true  -> ikisi de string havuzunda AYNI nesne
+System.out.println(s1 == s3);      // false -> new ile AYRI nesne oluşturuldu
+System.out.println(s1.equals(s3)); // true  -> içerik aynı
+
+s1.concat(" OOP");
+System.out.println(s1);            // "Java" -> DEĞİŞMEDİ! (immutable)
+
+StringBuilder sb = new StringBuilder("Java");
+sb.append(" OOP");
+System.out.println(sb);            // "Java OOP" -> StringBuilder değiştirilebilir (mutable)
+```
+
+**`String` değişmezdir (immutable):** `concat()`, `replace()`, `toUpperCase()` gibi metotlar **yeni bir String döndürür**, orijinali değiştirmez. Sonucu kullanmak için mutlaka bir değişkene ata: `s1 = s1.concat(" OOP");`
+
+**Sık kullanılan metotlar:** `length()`, `charAt(i)`, `substring(basla, bitir)`, `toUpperCase()`, `equals()` / `equalsIgnoreCase()`, `split(",")`, `trim()`, `replace(eski, yeni)`.
+
+> 🔑 **Ezber:** "String değişmez, StringBuilder değişir." `==` referans karşılaştırır, `.equals()` içerik karşılaştırır.
+
+---
+
+# Bölüm 2: Bellek, Veri Tipleri ve Referanslar
+*(Nesnelere geçmeden önce referans mantığı ve bellek oturmalı)*
+
+## 2.1) Bellek Yönetimi (Stack vs Heap) ve Referans Mantığı
+
+Java'da bellek ikiye ayrılır:
+1. **Stack (Yığın):** İlkel tipler (`int`, `double`) ve nesnelerin **referansları** (kumandalar) burada tutulur.
+2. **Heap (Öbek):** `new` kelimesiyle oluşturulan tüm **nesneler** (televizyonlar) burada tutulur.
+
+**Tuzak — Metotlara Parametre Göndermek (Pass-by-Value):**
+
+```java
+class Test {
+    static void ilkelDegistir(int a) {
+        a = 99; // Sadece kopya değişti!
+    }
+
+    static void referansDegistir(ArrayList<Integer> liste) {
+        liste.add(99); // Orijinal nesneye etki eder!
+    }
+
+    public static void main(String[] args) {
+        int sayi = 5;
+        ilkelDegistir(sayi);
+        System.out.println(sayi); // 5 -> DEĞİŞMEDİ! İlkel tiplerin değeri kopyalanır.
+
+        ArrayList<Integer> l = new ArrayList<>();
+        referansDegistir(l);
+        System.out.println(l); // [99] -> DEĞİŞTİ! Nesnenin adresi kopyalandığı için aynı orijinal nesne değiştirildi.
+    }
+}
+```
+
+> 🔑 **Ezber:** "İlkel tipte (int) kopyayı verirsin, orijinal değişmez. Referans tipte (nesne) kumandayı verirsin, televizyon (orijinal) değişir."
+
+---
+
+## 2.2) Tip Dönüşümü (Casting) ve Wrapper/Autoboxing
+
+```java
+double d = 9.7;
+int i = (int) d;
+System.out.println(i);   // 9  -> KESER, yuvarlamaz!
+
+Hayvan h = new Kopek();  // upcast: otomatik, Java kendi yapar
+Kopek k = (Kopek) h;     // downcast: elle, alt tipe özel metoda erişmek için
+
+Integer a = 100, b = 100;
+Integer c = 200, d2 = 200;
+System.out.println(a == b);    // true
+System.out.println(c == d2);   // false
+```
+
+**Casting türleri:**
+- `(int) d` → **primitive** dönüşüm (double→int), ondalık **atılır** (yuvarlama yok).
+- `Hayvan h = new Kopek()` → **upcast**, otomatik ve güvenli (alt tip her zaman üst tiptir).
+- `(Kopek) h` → **downcast**, elle yapılır; yanlış tipte olursa `ClassCastException` fırlar.
+
+**Zor tuzak — Integer önbelleği (cache):** Java, **-128 ile 127** arasındaki `Integer` değerlerini önbellekte tutar ve tekrar kullanır → bu aralıkta `==` beklenmedik şekilde `true` verir. Aralık dışında (`200` gibi) her biri ayrı nesnedir → `==` false. Sayı karşılaştırmasında **her zaman `.equals()`** kullan.
+
+> 🔑 **Ezber:** "(int) kesme yapar, yuvarlama yapmaz." "Wrapper karşılaştırmasında `==` değil `.equals()` kullan."
+
+---
+
+## 2.3) equals() Metodunu Ezmek (Override)
+
+İki nesneyi `==` veya varsayılan `.equals()` ile karşılaştırdığınızda Java, nesnelerin **bellek adreslerine (referanslarına)** bakar. İçerikleri aynı olsa bile `false` döner. İçeriği kıyaslamak için `equals` metodunu ezmeliyiz.
+
+```java
+class Urun {
+    String ad;
+    int fiyat;
+
+    Urun(String ad, int fiyat) {
+        this.ad = ad;
+        this.fiyat = fiyat;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        // 1. Kendi adresiyle aynıysa zaten true
+        if (this == o) return true;
+        // 2. Gelen nesne null ise veya tipler uyuşmuyorsa false
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        // 3. Güvenli şekilde tip dönüşümü (downcast) yap ve alanları kıyasla
+        Urun diger = (Urun) o;
+        return this.fiyat == diger.fiyat && this.ad.equals(diger.ad);
+    }
+}
+
+Urun u1 = new Urun("Telefon", 5000);
+Urun u2 = new Urun("Telefon", 5000);
+
+System.out.println(u1 == u2);      // false (Farklı bellek adresleri)
+System.out.println(u1.equals(u2)); // true  (equals ezildiği için artık içerik kıyaslandı)
+```
+
+> 🔑 **Ezber:** "String'de equals içerik kıyaslar çünkü zaten ezilmiştir. Kendi sınıfında içeriği kıyaslamak istiyorsan, equals'ı kendin ezmelisin."
+
+---
+
+# Bölüm 3: Nesne Yönelimli Programlamaya (OOP) Giriş
+*(Sınıf, nesne ve sınıf üyelerinin temelleri)*
+
+## 3.1) Sınıf Yapısına Genel Bakış
 
 | Yapı | Anahtar kelime | Hatırla |
 |------|----------------|---------|
@@ -23,99 +221,7 @@ Alıştırmalar için → [`ALISTIRMALAR/`](ALISTIRMALAR/) (Part 1, Part 2, ...)
 
 ---
 
-## 2) ArrayList Metotları (IndexOutOfBounds tuzağı)
-
-```java
-ArrayList<Integer> l = new ArrayList<>();
-l.add(3);        // [3]            -> sona ekler
-l.add(8);        // [3, 8]
-l.add(4);        // [3, 8, 4]
-l.add(5, 21);    // ❌ HATA! index 5 > boyut 3
-```
-
-| Metot | Anlamı | Index kuralı |
-|-------|--------|--------------|
-| `add(x)` | sona ekler | — |
-| `add(i, x)` | i. indekse araya sokar | **i ≤ boyut** |
-| `set(i, x)` | i. indekstekini değiştirir | **i < boyut** |
-| `remove(i)` | i. indekstekini siler | **i < boyut** |
-
-### ⚠️ İki büyük tuzak
-1. **`add(i, x)` taşması:** index, boyuttan büyükse → `IndexOutOfBoundsException`.
-2. **`remove(3)` değeri değil İNDEKSİ siler!**
-   - `remove(int index)` → indeksi siler ← sayı yazınca bu çalışır
-   - `remove(Object o)` → değeri siler (`remove(Integer.valueOf(3))`)
-
-> 🔑 **Çıktıyı izlerken:** her satırdan sonra listeyi `[ ]` çiz, her index'i kontrol et. Taşma varsa → Exception.
-
----
-
-## 3) Kalıtım & Constructor Sırası (super)
-
-```java
-class A {
-    A() {
-        System.out.println("A");
-    }
-}
-
-class B extends A {
-    B() {
-        System.out.println("B");
-    }
-}
-
-class C extends B {
-    C() {
-        System.out.println("C");
-    }
-}
-// new C();  -->  Çıktı:  A  B  C
-```
-
-**Neden A B C?** Her constructor'ın ilk satırına Java gizli `super()` koyar.
-Çağrı yukarı gider (C→B→A), çalışma yukarıdan aşağı olur (A→B→C).
-
-> 🔑 **Ezber: "En eski ata önce çalışır." (yukarıdan aşağıya)**
-
-**Tuzaklar:**
-- `System.out.println("A");` doğrudan sınıf gövdesine yazılamaz → constructor `A(){...}` içine koy.
-- Bir dosyada sadece **1 tane `public class`** olabilir.
-
----
-
-## 4) static Değişkenler (paylaşımlı tek kopya)
-
-```java
-class Sayac {
-    static int x = 0;
-
-    void arttirX(int u) {
-        x = x + u;
-    }
-
-    void arttirY(int v) {
-        x = x + v;
-    }
-}
-
-Sayac a = new Sayac();
-Sayac b = new Sayac();
-a.arttirX(5);   // x = 5
-b.arttirY(3);   // x = 8   (AYNI x!)
-System.out.println(a.x + " - " + b.x);  // 8 - 8
-```
-
-| | `static int x` | `int x` (static'siz) |
-|---|---|---|
-| Kopya sayısı | Sınıf için **1 tane** | Her nesneye **ayrı** |
-| Sonuç | `8 - 8` | `5 - 3` |
-
-> 🔑 **Ezber: "static = nesneye değil sınıfa ait, herkes aynı kopyayı paylaşır."**
-
----
-
-## 5) this(...) — Aynı Sınıfta Constructor Zinciri
+## 3.2) this(...) — Aynı Sınıfta Constructor Zinciri
 
 ```java
 class A {
@@ -149,7 +255,105 @@ class A {
 
 ---
 
-## 6) inheritance + abstract + interface + override + private (Polimorfizm)
+## 3.3) static Değişkenler (Paylaşımlı Tek Kopya)
+
+```java
+class Sayac {
+    static int x = 0;
+
+    void arttirX(int u) {
+        x = x + u;
+    }
+
+    void arttirY(int v) {
+        x = x + v;
+    }
+}
+
+Sayac a = new Sayac();
+Sayac b = new Sayac();
+a.arttirX(5);   // x = 5
+b.arttirY(3);   // x = 8   (AYNI x!)
+System.out.println(a.x + " - " + b.x);  // 8 - 8
+```
+
+| | `static int x` | `int x` (static'siz) |
+|---|---|---|
+| Kopya sayısı | Sınıf için **1 tane** | Her nesneye **ayrı** |
+| Sonuç | `8 - 8` | `5 - 3` |
+
+> 🔑 **Ezber: "static = nesneye değil sınıfa ait, herkes aynı kopyayı paylaşır."**
+
+---
+
+## 3.4) final Anahtar Kelimesi
+
+```java
+final int MAX_HIZ = 120;
+// MAX_HIZ = 130;  // ❌ HATA! final değişken değiştirilemez.
+
+final class GuvenliSinif { /* ... */ }
+// class AltSinif extends GuvenliSinif { } // ❌ HATA! final sınıf miras alınamaz.
+
+class Ata {
+    final void yazdir() { /* ... */ }
+}
+class Cocuk extends Ata {
+    // void yazdir() { } // ❌ HATA! final metot override edilemez.
+}
+```
+
+**Tuzak (Referans Tiplerinde final):**
+`final` bir `ArrayList` oluşturduğunda, listenin **içindeki** elemanları değiştirebilirsin (ekleme/çıkarma yapabilirsin). Sadece listeyi `new` ile başka bir listeye eşitleyemezsin.
+
+```java
+final ArrayList<String> liste = new ArrayList<>();
+liste.add("Java"); // ✅ Çalışır, içi değişebilir.
+// liste = new ArrayList<>(); // ❌ HATA! Yeni referans atanamaz.
+```
+
+> 🔑 **Ezber:** "final değişkende sabittir, metotta ezilemez, sınıfta kısırdır (miras vermez)."
+
+---
+
+# Bölüm 4: İleri Seviye OOP (Kalıtım ve Polimorfizm)
+*(Sınıflar arası ilişkiler)*
+
+## 4.1) Kalıtım & Constructor Sırası (super)
+
+```java
+class A {
+    A() {
+        System.out.println("A");
+    }
+}
+
+class B extends A {
+    B() {
+        System.out.println("B");
+    }
+}
+
+class C extends B {
+    C() {
+        System.out.println("C");
+    }
+}
+// new C();  -->  Çıktı:  A  B  C
+```
+
+**Neden A B C?** Her constructor'ın ilk satırına Java gizli `super()` koyar.
+Çağrı yukarı gider (C→B→A), çalışma yukarıdan aşağı olur (A→B→C).
+
+> 🔑 **Ezber: "En eski ata önce çalışır." (yukarıdan aşağıya)**
+
+**Tuzaklar:**
+- `System.out.println("A");` doğrudan sınıf gövdesine yazılamaz → constructor `A(){...}` içine koy.
+- Bir dosyada sadece **1 tane `public class`** olabilir.
+
+---
+
+## 4.2) Soyutlama ve Çok Biçimlilik (abstract + interface + override + private)
 
 Hepsi tek örnekte:
 
@@ -238,89 +442,67 @@ System.out.println(m.selam());
 
 ---
 
-## 7) Diziler (Array)
+# Bölüm 5: Koleksiyonlar (Gelişmiş Veri Yapıları)
+*(Dizilerin yetmediği yerde dinamik yapılar)*
+
+## 5.1) ArrayList Metotları ve Taşma Tuzakları
 
 ```java
-int[] sayilar = new int[3];
-boolean[] bayraklar = new boolean[2];
-String[] isimler = new String[2];
-System.out.println(sayilar[0] + " " + bayraklar[0] + " " + isimler[0]);
-// Çıktı: 0 false null
-
-int[] dizi = {10, 20, 30};
-System.out.println(dizi.length);   // 3  (özellik, parantezsiz)
-System.out.println(dizi[1]);       // 20 (indeks 0'dan başlar)
-
-int[][] matris = {{1, 2}, {3, 4}}; // 2 boyutlu dizi
-System.out.println(matris[1][0]);  // 3  -> matris[satir][sutun]
+ArrayList<Integer> l = new ArrayList<>();
+l.add(3);        // [3]            -> sona ekler
+l.add(8);        // [3, 8]
+l.add(4);        // [3, 8, 4]
+l.add(5, 21);    // ❌ HATA! index 5 > boyut 3
 ```
 
-**Varsayılan değerler** (dizi oluşturunca otomatik atanır):
+| Metot | Anlamı | Index kuralı |
+|-------|--------|--------------|
+| `add(x)` | sona ekler | — |
+| `add(i, x)` | i. indekse araya sokar | **i ≤ boyut** |
+| `set(i, x)` | i. indekstekini değiştirir | **i < boyut** |
+| `remove(i)` | i. indekstekini siler | **i < boyut** |
 
-| Tip | Varsayılan |
-|-----|-----------|
-| `int`, `double` vb. sayısal | `0` |
-| `boolean` | `false` |
-| Nesne (`String` vb.) | `null` |
+### ⚠️ İki büyük tuzak
+1. **`add(i, x)` taşması:** index, boyuttan büyükse → `IndexOutOfBoundsException`.
+2. **`remove(3)` değeri değil İNDEKSİ siler!**
+   - `remove(int index)` → indeksi siler ← sayı yazınca bu çalışır
+   - `remove(Object o)` → değeri siler (`remove(Integer.valueOf(3))`)
 
-> 🔑 **Ezber:** dizide `.length` **özelliktir** (parantezsiz); `ArrayList`'te `.size()` **metottur** (parantezli). Karıştırmak derleme hatası verir.
+> 🔑 **Çıktıyı izlerken:** her satırdan sonra listeyi `[ ]` çiz, her index'i kontrol et. Taşma varsa → Exception.
 
 ---
 
-## 8) Tip Dönüşümü (Casting) ve Wrapper/Autoboxing
+## 5.2) HashMap (Anahtar - Değer Çiftleri)
 
 ```java
-double d = 9.7;
-int i = (int) d;
-System.out.println(i);   // 9  -> KESER, yuvarlamaz!
+HashMap<String, Integer> notlar = new HashMap<>();
+notlar.put("Ali", 85);
+notlar.put("Ayse", 92);
+notlar.put("Ali", 90); // Ali'nin değerini GÜNCELLER, yeni eklemez (anahtarlar eşsizdir).
 
-Hayvan h = new Kopek();  // upcast: otomatik, Java kendi yapar
-Kopek k = (Kopek) h;     // downcast: elle, alt tipe özel metoda erişmek için
+System.out.println(notlar.get("Ayse")); // 92
+System.out.println(notlar.get("Veli")); // null (olmayan anahtar)
 
-Integer a = 100, b = 100;
-Integer c = 200, d2 = 200;
-System.out.println(a == b);    // true
-System.out.println(c == d2);   // false
+// Döngü ile gezmek:
+for (String isim : notlar.keySet()) {
+    System.out.println(isim + ": " + notlar.get(isim));
+}
 ```
 
-**Casting türleri:**
-- `(int) d` → **primitive** dönüşüm (double→int), ondalık **atılır** (yuvarlama yok).
-- `Hayvan h = new Kopek()` → **upcast**, otomatik ve güvenli (alt tip her zaman üst tiptir).
-- `(Kopek) h` → **downcast**, elle yapılır; yanlış tipte olursa `ClassCastException` fırlar.
+| Metot | Anlamı |
+|-------|--------|
+| `put(K, V)` | Anahtar-Değer ekler (anahtar varsa değerini günceller) |
+| `get(K)` | Anahtara karşılık gelen değeri getirir (yoksa `null` döner) |
+| `containsKey(K)` | Anahtar var mı diye bakar (`true`/`false`) |
+| `remove(K)` | Anahtarı ve karşılığındaki değerini siler |
 
-**Zor tuzak — Integer önbelleği (cache):** Java, **-128 ile 127** arasındaki `Integer` değerlerini önbellekte tutar ve tekrar kullanır → bu aralıkta `==` beklenmedik şekilde `true` verir. Aralık dışında (`200` gibi) her biri ayrı nesnedir → `==` false. Sayı karşılaştırmasında **her zaman `.equals()`** kullan.
-
-> 🔑 **Ezber:** "(int) kesme yapar, yuvarlama yapmaz." "Wrapper karşılaştırmasında `==` değil `.equals()` kullan."
+> 🔑 **Ezber:** "ArrayList index ile, HashMap anahtar (key) ile çalışır. Anahtar yoksa null döner."
 
 ---
 
-## 9) String Derinlemesine
+# Bölüm 6: Hata Yönetimi
 
-```java
-String s1 = "Java";
-String s2 = "Java";
-String s3 = new String("Java");
-System.out.println(s1 == s2);      // true  -> ikisi de string havuzunda AYNI nesne
-System.out.println(s1 == s3);      // false -> new ile AYRI nesne oluşturuldu
-System.out.println(s1.equals(s3)); // true  -> içerik aynı
-
-s1.concat(" OOP");
-System.out.println(s1);            // "Java" -> DEĞİŞMEDİ! (immutable)
-
-StringBuilder sb = new StringBuilder("Java");
-sb.append(" OOP");
-System.out.println(sb);            // "Java OOP" -> StringBuilder değiştirilebilir (mutable)
-```
-
-**`String` değişmezdir (immutable):** `concat()`, `replace()`, `toUpperCase()` gibi metotlar **yeni bir String döndürür**, orijinali değiştirmez. Sonucu kullanmak için mutlaka bir değişkene ata: `s1 = s1.concat(" OOP");`
-
-**Sık kullanılan metotlar:** `length()`, `charAt(i)`, `substring(basla, bitir)`, `toUpperCase()`, `equals()` / `equalsIgnoreCase()`, `split(",")`, `trim()`, `replace(eski, yeni)`.
-
-> 🔑 **Ezber:** "String değişmez, StringBuilder değişir." `==` referans karşılaştırır, `.equals()` içerik karşılaştırır.
-
----
-
-## 10) Exception Hiyerarşisi
+## 6.1) Exception Hiyerarşisi
 
 ```java
 try {
@@ -353,168 +535,3 @@ try {
 - Checked bir exception fırlatan metot, onu ya `try/catch` ile yakalamalı ya da `throws` ile bildirmelidir — yoksa **derlenmez**.
 
 > 🔑 **Ezber:** "finally her zaman çalışır." "Checked exception'ı görmezden gelemezsin, derleyici seni durdurur."
-
----
-
-## 11) Kontrol Akışı (switch, döngüler, ternary)
-
-```java
-int gun = 2;
-switch (gun) {
-    case 1:
-        System.out.println("Pazartesi");
-    case 2:
-        System.out.println("Sali");
-        break;
-    default:
-        System.out.println("Diger");
-}
-// Çıktı: Sali   (gun=2 direkt case 2'ye düşer)
-
-int x = 10;
-do {
-    System.out.println(x);
-    x++;
-} while (x < 5);
-// Çıktı: 10   (do-while gövdesi EN AZ BİR KEZ çalışır, şart sonda kontrol edilir)
-
-String sonuc = (7 % 2 == 0) ? "cift" : "tek";
-System.out.println(sonuc);   // tek
-```
-
-**Tuzaklar:**
-- `switch`'te bir `case`'in sonunda `break` yoksa, bir sonraki `case`'e **düşer (fall-through)** — istemeden birden fazla blok çalışabilir.
-- `while` şartı **baştan** kontrol eder (yanlışsa hiç çalışmayabilir); `do-while` şartı **sonda** kontrol eder (en az bir kez çalışır).
-- Ternary (`?:`) tek satırlık if-else'in kısayoludur: `şart ? doğruysaDeğer : yanlışsaDeğer`.
-
-> 🔑 **Ezber:** "switch'te break unutma, düşer." "do-while önce çalışır, sonra sorar; while önce sorar, sonra çalışır."
-
----
-
-## 12) final Anahtar Kelimesi
-
-```java
-final int MAX_HIZ = 120;
-// MAX_HIZ = 130;  // ❌ HATA! final değişken değiştirilemez.
-
-final class GuvenliSinif { /* ... */ }
-// class AltSinif extends GuvenliSinif { } // ❌ HATA! final sınıf miras alınamaz.
-
-class Ata {
-    final void yazdir() { /* ... */ }
-}
-class Cocuk extends Ata {
-    // void yazdir() { } // ❌ HATA! final metot override edilemez.
-}
-```
-
-**Tuzak (Referans Tiplerinde final):**
-`final` bir `ArrayList` oluşturduğunda, listenin **içindeki** elemanları değiştirebilirsin (ekleme/çıkarma yapabilirsin). Sadece listeyi `new` ile başka bir listeye eşitleyemezsin.
-
-```java
-final ArrayList<String> liste = new ArrayList<>();
-liste.add("Java"); // ✅ Çalışır, içi değişebilir.
-// liste = new ArrayList<>(); // ❌ HATA! Yeni referans atanamaz.
-```
-
-> 🔑 **Ezber:** "final değişkende sabittir, metotta ezilemez, sınıfta kısırdır (miras vermez)."
-
----
-
-## 13) HashMap (Anahtar - Değer Çiftleri)
-
-```java
-HashMap<String, Integer> notlar = new HashMap<>();
-notlar.put("Ali", 85);
-notlar.put("Ayse", 92);
-notlar.put("Ali", 90); // Ali'nin değerini GÜNCELLER, yeni eklemez (anahtarlar eşsizdir).
-
-System.out.println(notlar.get("Ayse")); // 92
-System.out.println(notlar.get("Veli")); // null (olmayan anahtar)
-
-// Döngü ile gezmek:
-for (String isim : notlar.keySet()) {
-    System.out.println(isim + ": " + notlar.get(isim));
-}
-```
-
-| Metot | Anlamı |
-|-------|--------|
-| `put(K, V)` | Anahtar-Değer ekler (anahtar varsa değerini günceller) |
-| `get(K)` | Anahtara karşılık gelen değeri getirir (yoksa `null` döner) |
-| `containsKey(K)` | Anahtar var mı diye bakar (`true`/`false`) |
-| `remove(K)` | Anahtarı ve karşılığındaki değerini siler |
-
-> 🔑 **Ezber:** "ArrayList index ile, HashMap anahtar (key) ile çalışır. Anahtar yoksa null döner."
-
----
-
-## 14) equals() Metodunu Ezmek (Override)
-
-İki nesneyi `==` veya varsayılan `.equals()` ile karşılaştırdığınızda Java, nesnelerin **bellek adreslerine (referanslarına)** bakar. İçerikleri aynı olsa bile `false` döner. İçeriği kıyaslamak için `equals` metodunu ezmeliyiz.
-
-```java
-class Urun {
-    String ad;
-    int fiyat;
-
-    Urun(String ad, int fiyat) {
-        this.ad = ad;
-        this.fiyat = fiyat;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        // 1. Kendi adresiyle aynıysa zaten true
-        if (this == o) return true;
-        // 2. Gelen nesne null ise veya tipler uyuşmuyorsa false
-        if (o == null || getClass() != o.getClass()) return false;
-        
-        // 3. Güvenli şekilde tip dönüşümü (downcast) yap ve alanları kıyasla
-        Urun diger = (Urun) o;
-        return this.fiyat == diger.fiyat && this.ad.equals(diger.ad);
-    }
-}
-
-Urun u1 = new Urun("Telefon", 5000);
-Urun u2 = new Urun("Telefon", 5000);
-
-System.out.println(u1 == u2);      // false (Farklı bellek adresleri)
-System.out.println(u1.equals(u2)); // true  (equals ezildiği için artık içerik kıyaslandı)
-```
-
-> 🔑 **Ezber:** "String'de equals içerik kıyaslar çünkü zaten ezilmiştir. Kendi sınıfında içeriği kıyaslamak istiyorsan, equals'ı kendin ezmelisin."
-
----
-
-## 15) Bellek Yönetimi (Stack vs Heap) ve Referans Mantığı
-
-Java'da bellek ikiye ayrılır:
-1. **Stack (Yığın):** İlkel tipler (`int`, `double`) ve nesnelerin **referansları** (kumandalar) burada tutulur.
-2. **Heap (Öbek):** `new` kelimesiyle oluşturulan tüm **nesneler** (televizyonlar) burada tutulur.
-
-**Tuzak — Metotlara Parametre Göndermek (Pass-by-Value):**
-
-```java
-class Test {
-    static void ilkelDegistir(int a) {
-        a = 99; // Sadece kopya değişti!
-    }
-
-    static void referansDegistir(ArrayList<Integer> liste) {
-        liste.add(99); // Orijinal nesneye etki eder!
-    }
-
-    public static void main(String[] args) {
-        int sayi = 5;
-        ilkelDegistir(sayi);
-        System.out.println(sayi); // 5 -> DEĞİŞMEDİ! İlkel tiplerin değeri kopyalanır.
-
-        ArrayList<Integer> l = new ArrayList<>();
-        referansDegistir(l);
-        System.out.println(l); // [99] -> DEĞİŞTİ! Nesnenin adresi kopyalandığı için aynı orijinal nesne değiştirildi.
-    }
-}
-```
-
-> 🔑 **Ezber:** "İlkel tipte (int) kopyayı verirsin, orijinal değişmez. Referans tipte (nesne) kumandayı verirsin, televizyon (orijinal) değişir."
