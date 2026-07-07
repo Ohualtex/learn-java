@@ -8,7 +8,8 @@ Alıştırmalar için → [`../ALISTIRMALAR/`](../ALISTIRMALAR/)
 
 ## 🗂️ Konu Başlıkları (Detaylı Anlatımlar)
 
-1. [Temeller ve Akış Kontrolü](01_temeller_ve_akis_kontrolu.md)
+0. [Java 101 (Programlamaya Giriş)](00_java_101_temeller.md)
+1. [Akış Kontrolü, Diziler ve String](01_akis_kontrolu_diziler_string.md)
 2. [Bellek, Veri Tipleri ve Referanslar](02_bellek_ve_veri_tipleri.md)
 3. [Nesne Yönelimli Programlamaya (OOP) Giriş](03_oop_giris.md)
 4. [İleri Seviye OOP (Kalıtım ve Polimorfizm)](04_kalitim_ve_polimorfizm.md)
@@ -21,6 +22,11 @@ Alıştırmalar için → [`../ALISTIRMALAR/`](../ALISTIRMALAR/)
 
 Sınav veya mülakat öncesi hızlıca göz gezdirmek için her bölümün en önemli kuralları:
 
+- **Yazdırma ve Kaçış:** "`print` yan yana yazar, `println` yazıp alt satıra geçer. `\n` yeni satır, `\t` sekme (tab) demektir."
+- **Operatörler:** "`=` atama yapar, `==` eşit mi diye sorar. `%` (mod) kalanı bulur, çift-tek sayı kontrolünde hayat kurtarır."
+- **if-else:** "if'in sonuna noktalı virgül konmaz. Zincirdeki ilk doğru şart çalışır, gerisi atlanır."
+- **Scanner:** "Sayıdan sonra metin (`nextLine`) okuyacaksan, araya bir boş `nextLine()` atıp çöpü temizle."
+- **Metotlar:** "`void` iş yapar susar, `return` değeri hesaplar ve sana fırlatır."
 - **Akış Kontrolü:** "switch'te break unutma, düşer." "do-while önce çalışır, sonra sorar; while önce sorar, sonra çalışır."
 - **Diziler:** "dizide `.length` özelliktir (parantezsiz); `ArrayList`'te `.size()` metottur (parantezli)."
 - **String:** "String değişmez, StringBuilder değişir." `==` referans karşılaştırır, `.equals()` içerik karşılaştırır.

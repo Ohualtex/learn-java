@@ -13,6 +13,7 @@ alıştırmalarla öğrenmek için bir çalışma deposu.
 
 ## Konular
 
+- Programlamaya giriş (Değişkenler, operatörler, if-else, metotlar, Scanner)
 - enum, interface, exception
 - Kalıtım (`extends`) ve constructor sırası (`super`)
 - `static` değişkenler
