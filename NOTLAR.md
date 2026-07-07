@@ -235,3 +235,156 @@ System.out.println(m.selam());
 - Birlikte: `class Film extends Medya implements Z { }`
 
 > 🔑 **Ezber:** abstract = "yarım sınıf, nesnesi olmaz". override = "ata metodu eziyorum". interface = "söz veriyorum bu metotları yazacağım". private = "kimse görmesin".
+
+---
+
+## 7) Diziler (Array)
+
+```java
+int[] sayilar = new int[3];
+boolean[] bayraklar = new boolean[2];
+String[] isimler = new String[2];
+System.out.println(sayilar[0] + " " + bayraklar[0] + " " + isimler[0]);
+// Çıktı: 0 false null
+
+int[] dizi = {10, 20, 30};
+System.out.println(dizi.length);   // 3  (özellik, parantezsiz)
+System.out.println(dizi[1]);       // 20 (indeks 0'dan başlar)
+
+int[][] matris = {{1, 2}, {3, 4}}; // 2 boyutlu dizi
+System.out.println(matris[1][0]);  // 3  -> matris[satir][sutun]
+```
+
+**Varsayılan değerler** (dizi oluşturunca otomatik atanır):
+
+| Tip | Varsayılan |
+|-----|-----------|
+| `int`, `double` vb. sayısal | `0` |
+| `boolean` | `false` |
+| Nesne (`String` vb.) | `null` |
+
+> 🔑 **Ezber:** dizide `.length` **özelliktir** (parantezsiz); `ArrayList`'te `.size()` **metottur** (parantezli). Karıştırmak derleme hatası verir.
+
+---
+
+## 8) Tip Dönüşümü (Casting) ve Wrapper/Autoboxing
+
+```java
+double d = 9.7;
+int i = (int) d;
+System.out.println(i);   // 9  -> KESER, yuvarlamaz!
+
+Hayvan h = new Kopek();  // upcast: otomatik, Java kendi yapar
+Kopek k = (Kopek) h;     // downcast: elle, alt tipe özel metoda erişmek için
+
+Integer a = 100, b = 100;
+Integer c = 200, d2 = 200;
+System.out.println(a == b);    // true
+System.out.println(c == d2);   // false
+```
+
+**Casting türleri:**
+- `(int) d` → **primitive** dönüşüm (double→int), ondalık **atılır** (yuvarlama yok).
+- `Hayvan h = new Kopek()` → **upcast**, otomatik ve güvenli (alt tip her zaman üst tiptir).
+- `(Kopek) h` → **downcast**, elle yapılır; yanlış tipte olursa `ClassCastException` fırlar.
+
+**Zor tuzak — Integer önbelleği (cache):** Java, **-128 ile 127** arasındaki `Integer` değerlerini önbellekte tutar ve tekrar kullanır → bu aralıkta `==` beklenmedik şekilde `true` verir. Aralık dışında (`200` gibi) her biri ayrı nesnedir → `==` false. Sayı karşılaştırmasında **her zaman `.equals()`** kullan.
+
+> 🔑 **Ezber:** "(int) kesme yapar, yuvarlama yapmaz." "Wrapper karşılaştırmasında `==` değil `.equals()` kullan."
+
+---
+
+## 9) String Derinlemesine
+
+```java
+String s1 = "Java";
+String s2 = "Java";
+String s3 = new String("Java");
+System.out.println(s1 == s2);      // true  -> ikisi de string havuzunda AYNI nesne
+System.out.println(s1 == s3);      // false -> new ile AYRI nesne oluşturuldu
+System.out.println(s1.equals(s3)); // true  -> içerik aynı
+
+s1.concat(" OOP");
+System.out.println(s1);            // "Java" -> DEĞİŞMEDİ! (immutable)
+
+StringBuilder sb = new StringBuilder("Java");
+sb.append(" OOP");
+System.out.println(sb);            // "Java OOP" -> StringBuilder değiştirilebilir (mutable)
+```
+
+**`String` değişmezdir (immutable):** `concat()`, `replace()`, `toUpperCase()` gibi metotlar **yeni bir String döndürür**, orijinali değiştirmez. Sonucu kullanmak için mutlaka bir değişkene ata: `s1 = s1.concat(" OOP");`
+
+**Sık kullanılan metotlar:** `length()`, `charAt(i)`, `substring(basla, bitir)`, `toUpperCase()`, `equals()` / `equalsIgnoreCase()`, `split(",")`, `trim()`, `replace(eski, yeni)`.
+
+> 🔑 **Ezber:** "String değişmez, StringBuilder değişir." `==` referans karşılaştırır, `.equals()` içerik karşılaştırır.
+
+---
+
+## 10) Exception Hiyerarşisi
+
+```java
+try {
+    int[] arr = new int[3];
+    System.out.println(arr[5]);
+} catch (ArithmeticException e) {
+    System.out.println("aritmetik");
+} catch (ArrayIndexOutOfBoundsException e) {
+    System.out.println("dizi");
+} catch (Exception e) {
+    System.out.println("genel");
+} finally {
+    System.out.println("finally her zaman calisir");
+}
+// Çıktı:
+// dizi
+// finally her zaman calisir
+```
+
+**Hiyerarşi:** `Throwable` → `Exception` → `RuntimeException` (unchecked) ve diğerleri (checked).
+
+| | Checked (örn. kendi `Exception`'ımız) | Unchecked (`RuntimeException` alt sınıfı) |
+|---|---|---|
+| Derleyici zorlar mı? | ✅ Evet — `try/catch` ya da `throws` şart | ❌ Hayır |
+| Örnek | `class Y extends Exception` | `ArithmeticException`, `NullPointerException`, `ArrayIndexOutOfBoundsException` |
+
+**Kurallar:**
+- Birden fazla `catch` varsa, Java yukarıdan aşağı **ilk uyan** bloğu çalıştırır → **en özel** exception **en üstte** olmalı.
+- `finally` bloğu hata olsun olmasın **her zaman** çalışır.
+- Checked bir exception fırlatan metot, onu ya `try/catch` ile yakalamalı ya da `throws` ile bildirmelidir — yoksa **derlenmez**.
+
+> 🔑 **Ezber:** "finally her zaman çalışır." "Checked exception'ı görmezden gelemezsin, derleyici seni durdurur."
+
+---
+
+## 11) Kontrol Akışı (switch, döngüler, ternary)
+
+```java
+int gun = 2;
+switch (gun) {
+    case 1:
+        System.out.println("Pazartesi");
+    case 2:
+        System.out.println("Sali");
+        break;
+    default:
+        System.out.println("Diger");
+}
+// Çıktı: Sali   (gun=2 direkt case 2'ye düşer)
+
+int x = 10;
+do {
+    System.out.println(x);
+    x++;
+} while (x < 5);
+// Çıktı: 10   (do-while gövdesi EN AZ BİR KEZ çalışır, şart sonda kontrol edilir)
+
+String sonuc = (7 % 2 == 0) ? "cift" : "tek";
+System.out.println(sonuc);   // tek
+```
+
+**Tuzaklar:**
+- `switch`'te bir `case`'in sonunda `break` yoksa, bir sonraki `case`'e **düşer (fall-through)** — istemeden birden fazla blok çalışabilir.
+- `while` şartı **baştan** kontrol eder (yanlışsa hiç çalışmayabilir); `do-while` şartı **sonda** kontrol eder (en az bir kez çalışır).
+- Ternary (`?:`) tek satırlık if-else'in kısayoludur: `şart ? doğruysaDeğer : yanlışsaDeğer`.
+
+> 🔑 **Ezber:** "switch'te break unutma, düşer." "do-while önce çalışır, sonra sorar; while önce sorar, sonra çalışır."
