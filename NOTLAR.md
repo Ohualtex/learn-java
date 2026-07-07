@@ -388,3 +388,133 @@ System.out.println(sonuc);   // tek
 - Ternary (`?:`) tek satırlık if-else'in kısayoludur: `şart ? doğruysaDeğer : yanlışsaDeğer`.
 
 > 🔑 **Ezber:** "switch'te break unutma, düşer." "do-while önce çalışır, sonra sorar; while önce sorar, sonra çalışır."
+
+---
+
+## 12) final Anahtar Kelimesi
+
+```java
+final int MAX_HIZ = 120;
+// MAX_HIZ = 130;  // ❌ HATA! final değişken değiştirilemez.
+
+final class GuvenliSinif { /* ... */ }
+// class AltSinif extends GuvenliSinif { } // ❌ HATA! final sınıf miras alınamaz.
+
+class Ata {
+    final void yazdir() { /* ... */ }
+}
+class Cocuk extends Ata {
+    // void yazdir() { } // ❌ HATA! final metot override edilemez.
+}
+```
+
+**Tuzak (Referans Tiplerinde final):**
+`final` bir `ArrayList` oluşturduğunda, listenin **içindeki** elemanları değiştirebilirsin (ekleme/çıkarma yapabilirsin). Sadece listeyi `new` ile başka bir listeye eşitleyemezsin.
+
+```java
+final ArrayList<String> liste = new ArrayList<>();
+liste.add("Java"); // ✅ Çalışır, içi değişebilir.
+// liste = new ArrayList<>(); // ❌ HATA! Yeni referans atanamaz.
+```
+
+> 🔑 **Ezber:** "final değişkende sabittir, metotta ezilemez, sınıfta kısırdır (miras vermez)."
+
+---
+
+## 13) HashMap (Anahtar - Değer Çiftleri)
+
+```java
+HashMap<String, Integer> notlar = new HashMap<>();
+notlar.put("Ali", 85);
+notlar.put("Ayse", 92);
+notlar.put("Ali", 90); // Ali'nin değerini GÜNCELLER, yeni eklemez (anahtarlar eşsizdir).
+
+System.out.println(notlar.get("Ayse")); // 92
+System.out.println(notlar.get("Veli")); // null (olmayan anahtar)
+
+// Döngü ile gezmek:
+for (String isim : notlar.keySet()) {
+    System.out.println(isim + ": " + notlar.get(isim));
+}
+```
+
+| Metot | Anlamı |
+|-------|--------|
+| `put(K, V)` | Anahtar-Değer ekler (anahtar varsa değerini günceller) |
+| `get(K)` | Anahtara karşılık gelen değeri getirir (yoksa `null` döner) |
+| `containsKey(K)` | Anahtar var mı diye bakar (`true`/`false`) |
+| `remove(K)` | Anahtarı ve karşılığındaki değerini siler |
+
+> 🔑 **Ezber:** "ArrayList index ile, HashMap anahtar (key) ile çalışır. Anahtar yoksa null döner."
+
+---
+
+## 14) equals() Metodunu Ezmek (Override)
+
+İki nesneyi `==` veya varsayılan `.equals()` ile karşılaştırdığınızda Java, nesnelerin **bellek adreslerine (referanslarına)** bakar. İçerikleri aynı olsa bile `false` döner. İçeriği kıyaslamak için `equals` metodunu ezmeliyiz.
+
+```java
+class Urun {
+    String ad;
+    int fiyat;
+
+    Urun(String ad, int fiyat) {
+        this.ad = ad;
+        this.fiyat = fiyat;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        // 1. Kendi adresiyle aynıysa zaten true
+        if (this == o) return true;
+        // 2. Gelen nesne null ise veya tipler uyuşmuyorsa false
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        // 3. Güvenli şekilde tip dönüşümü (downcast) yap ve alanları kıyasla
+        Urun diger = (Urun) o;
+        return this.fiyat == diger.fiyat && this.ad.equals(diger.ad);
+    }
+}
+
+Urun u1 = new Urun("Telefon", 5000);
+Urun u2 = new Urun("Telefon", 5000);
+
+System.out.println(u1 == u2);      // false (Farklı bellek adresleri)
+System.out.println(u1.equals(u2)); // true  (equals ezildiği için artık içerik kıyaslandı)
+```
+
+> 🔑 **Ezber:** "String'de equals içerik kıyaslar çünkü zaten ezilmiştir. Kendi sınıfında içeriği kıyaslamak istiyorsan, equals'ı kendin ezmelisin."
+
+---
+
+## 15) Bellek Yönetimi (Stack vs Heap) ve Referans Mantığı
+
+Java'da bellek ikiye ayrılır:
+1. **Stack (Yığın):** İlkel tipler (`int`, `double`) ve nesnelerin **referansları** (kumandalar) burada tutulur.
+2. **Heap (Öbek):** `new` kelimesiyle oluşturulan tüm **nesneler** (televizyonlar) burada tutulur.
+
+**Tuzak — Metotlara Parametre Göndermek (Pass-by-Value):**
+
+```java
+class Test {
+    static void ilkelDegistir(int a) {
+        a = 99; // Sadece kopya değişti!
+    }
+
+    static void referansDegistir(ArrayList<Integer> liste) {
+        liste.add(99); // Orijinal nesneye etki eder!
+    }
+
+    public static void main(String[] args) {
+        int sayi = 5;
+        ilkelDegistir(sayi);
+        System.out.println(sayi); // 5 -> DEĞİŞMEDİ! İlkel tiplerin değeri kopyalanır.
+
+        ArrayList<Integer> l = new ArrayList<>();
+        referansDegistir(l);
+        System.out.println(l); // [99] -> DEĞİŞTİ! Nesnenin adresi kopyalandığı için aynı orijinal nesne değiştirildi.
+    }
+}
+```
+
+> 🔑 **Ezber:** "İlkel tipte (int) kopyayı verirsin, orijinal değişmez. Referans tipte (nesne) kumandayı verirsin, televizyon (orijinal) değişir."
