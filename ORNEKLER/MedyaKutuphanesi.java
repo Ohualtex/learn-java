@@ -7,93 +7,107 @@ import java.util.ArrayList;
  */
 
 // enum
+
 enum Tur {
     FILM,
     MUZIK,
     DIZI
 }
 
-// interface
-interface Z {
+interface Z{
+
     String getK();
     String getM();
+
 }
 
-// exception
 class Y extends Exception {
-    public Y(String mesaj) {
+    
+    public Y(String mesaj){
         super(mesaj);
     }
+
 }
 
-// üst sınıf
-class Medya implements Z {
+abstract class Medya implements Z{
 
-    private   String ad;
+    private String ad;
     protected String tc;
-    protected int    ucret;
-    protected Tur    tur;
+    protected int ucret;
+    protected Tur tur;
 
-    public Medya(String ad, String tc, int ucret, Tur tur) {
-        this.ad    = ad;
-        this.tc    = tc;
+    Medya(String ad, String tc, int ucret, Tur tur){
+
+        this.ad = ad;
+        this.tc = tc;
         this.ucret = ucret;
-        this.tur   = tur;
+        this.tur = tur;
     }
 
-    // alt sınıflar override edebilir
-    public void ucret() {
+    abstract void ucret();
+
+    String getAd(){
+        return ad;
     }
 
-    public String getAd()    { return ad;    }
-    public String getTc()    { return tc;    }
-    public int    getUcret() { return ucret; }
-
-    @Override
-    public String getK() {
-        return "getK() -> Ad: " + ad + " | Tur: " + tur;
+    String getTc(){
+        return tc;
     }
 
-    @Override
-    public String getM() {
-        return "getM() -> TC: " + tc + " | Ucret: " + ucret + " TL";
+    int getUcret(){
+        return ucret;
     }
-}
 
-// Medya listesini tutan sınıf
-class Kutuphane {
+    public String getK(){
+        return "K Metodu"; 
+    }
 
-    ArrayList<Medya> liste = new ArrayList<>();
-
-    public Kutuphane() {
-        liste.add(new Medya("Inception",         "11111111111", 50, Tur.FILM));
-        liste.add(new Medya("Bohemian Rhapsody", "22222222222", 30, Tur.MUZIK));
-        liste.add(new Medya("Breaking Bad",      "33333333333", 70, Tur.DIZI));
+    public String getM(){
+        return "M Metodu";
     }
 }
 
-public class MedyaKutuphanesi {
-    public static void main(String[] args) {
+class Kutuphane{
 
+    ArrayList<Medya> medyaListesi = new ArrayList<>();
+
+    Kutuphane(){
+        medyaListesi.add(new Medya("Inception", "111111111", 50, Tur.FILM) {
+            void ucret() { }
+        });
+        medyaListesi.add(new Medya("Bohemian Rhapsody", "222222222", 30, Tur.MUZIK) {
+            void ucret() { }
+        });
+        medyaListesi.add(new Medya("Breaking Bad", "333333333", 70, Tur.DIZI) {
+            void ucret() { }
+        });
+    }
+}
+
+public class MedyaKutuphanesi{
+
+    public static void main(String[] args){
         Kutuphane k = new Kutuphane();
 
-        for (Medya m : k.liste) {
-            System.out.println("Ad    : " + m.getAd());
-            System.out.println("TC    : " + m.getTc());
-            System.out.println("Ucret : " + m.getUcret());
+        for(Medya m : k.medyaListesi){
+            System.out.println("Ad: " + m.getAd());
+            System.out.println("TC: " + m.getTc());
+            System.out.println("Ücret: " + m.getUcret() + " TL");
+            System.out.println("Tür: " + m.tur); // Enum'ı da ekrana basalım!
             System.out.println(m.getK());
             System.out.println(m.getM());
-            System.out.println("----------------------------------");
+            System.out.println("--------------------");
         }
 
-        // istisna örneği
+        // İstisna örneği:
+        System.out.println("\n[Sistem Testi Başlıyor...]");
         try {
-            int ucret = -10;
-            if (ucret < 0) {
-                throw new Y("Ucret negatif olamaz!");
+            boolean sistemHatasi = true;
+            if(sistemHatasi) {
+                throw new Y("Kütüphane sistemine ulaşılamıyor!");
             }
         } catch (Y e) {
-            System.out.println("Hata yakalandi -> " + e.getMessage());
+            System.out.println("HATA YAKALANDI: " + e.getMessage());
         }
-    }
+    }   
 }
