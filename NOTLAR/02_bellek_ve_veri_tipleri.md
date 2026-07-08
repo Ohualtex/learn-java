@@ -58,7 +58,9 @@ System.out.println(c == d2);   // false
 
 **Zor tuzak — Integer önbelleği (cache):** Java, **-128 ile 127** arasındaki `Integer` değerlerini önbellekte tutar ve tekrar kullanır → bu aralıkta `==` beklenmedik şekilde `true` verir. Aralık dışında (`200` gibi) her biri ayrı nesnedir → `==` false. Sayı karşılaştırmasında **her zaman `.equals()`** kullan.
 
-> 🔑 **Ezber:** "(int) kesme yapar, yuvarlama yapmaz." "Wrapper karşılaştırmasında `==` değil `.equals()` kullan."
+**Sınav Tuzağı — Şapka İşareti ve Üs Alma:** Java'da `^` işareti **ÜS ALMAZ!** Mantıksal XOR (Ya da) işlemi yapar (`2 ^ 3` yazarsan 8 DEĞİL 1 verir). Üs almak için zorunlu olarak `Math.pow(taban, us)` kullanılmalıdır. Ayrıca bu metot her zaman **`double` (ondalıklı)** döndürür. Sonucu tam sayı kutusuna koymak istersen casting şarttır: `int sonuc = (int) Math.pow(2, 3);`.
+
+> 🔑 **Ezber:** "(int) kesme yapar, yuvarlama yapmaz." "Wrapper karşılaştırmasında `==` değil `.equals()` kullan." "Şapka üs almaz, Math.pow() double döndürür."
 
 ---
 

@@ -5,8 +5,8 @@
 
 | Yapı | Anahtar kelime | Hatırla |
 |------|----------------|---------|
-| **enum** | `enum Tur { FILM, MUZIK, DIZI }` | Sabit değer listesi |
-| **interface** | `interface Z { String getK(); }` | Sadece imza, gövde yok; `implements` eden doldurur |
+| **enum** | `enum Tur { FILM, MUZIK, DIZI }` | Sabit değer listesi. **Asla `new` ile nesne üretilemez!** |
+| **interface** | `interface Z { String getK(); }` | Sadece imza, gövde yok. **`new` ile nesne üretilemez!** |
 | **exception** | `class Y extends Exception` | `throw new Y("mesaj")` + `try/catch` |
 | **üst sınıf** | `class Medya implements Z` | `private ad`, `protected tc/ucret` + getter'lar |
 | **koleksiyon** | `ArrayList<Medya> liste` | `liste.add(...)`, `for (Medya m : liste)` |
